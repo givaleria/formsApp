@@ -1,1 +1,86 @@
-<p>dynamics works!</p>
+<h2>Reactive: <small> Dynamics</small></h2>
+<hr>
+
+<form [formGroup]="myForm"
+      (ngSubmit)="save()"
+      autocomplete="off">
+
+  <!-- Person's name -->
+  <div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Name</label>
+    <div class="col-sm-9">
+      <input class="form-control"
+             formControlName="name"
+             placeholder="Person's name">
+
+      <span class="form-text text-danger"
+            *ngIf="isFieldValid('name')">
+             This field is mandatory.
+      </span>
+    </div>
+  </div>
+
+  <!-- Add favourtive game -->
+  <div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Add</label>
+    <div class="col-sm-9">
+
+      <div class="input-group">
+        <input class="form-control"
+               [formControl]="newFav"
+               placeholder="Favourite game"
+               (keyup.enter)="addFav()">
+
+        <button class="btn btn-outline-primary"
+                type="button"
+                (click)="addFav()">
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- List of favourite games -->
+  <div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Favs</label>
+    <div class="col-sm-9" formArrayName="favs">
+
+      <div class="input-group mb-1"
+           *ngFor="let fav of favsArray.controls; let i = index">
+
+      <input class="form-control"
+             [formControlName]="i">
+
+      <button class="btn btn-outline-danger"
+              type="button"
+              (click)="delete(i)">
+       Delete
+      </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <div class="col-sm-12">
+      <button type="submit"
+              class="btn btn-primary float-end">
+        Save
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<hr>
+
+<span>Valid</span>
+<pre>{{myForm.valid}}</pre>
+
+<span>Value</span>
+<pre>{{myForm.value | json}}</pre>
+
+<span>Add game</span>
+<pre>{{newFav.valid | json}}</pre>
+<pre>{{newFav.value | json}}</pre>
